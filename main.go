@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	tools.ExploitTheExpemle("ExempleToTest/exemple02")
+	tools.ExploitTheExpemle("ExempleToTest/exemple07")
 	fmt.Println(tools.GetValidPath())
 }
 

@@ -1,7 +1,6 @@
 package tools
 
 import (
-	"fmt"
 	"lemIn/objects"
 )
 
@@ -11,23 +10,29 @@ func GetValidPath() [][]string {
 	ValidPaths := [][]string{}
 	//resset the neework
 	SetAllRoomsFalse()
+	//check If on Start Childs reach the End Room
+	for _, v := range objects.Start.LInkedRooms {
+		if v == objects.End.Name {
+			ValidPaths = append(ValidPaths, []string{objects.Start.Name, objects.End.Name})
+			break
+		}
+	}
 	//get the firts path that camm from The Start Room
 	rootPaths := GetUnEploredStartLinkedRoom()
-	fmt.Println(rootPaths)
 	//intialize the  previous befor the update
 	PreviousPath := []string{}
+
 	for len(rootPaths) != 0 {
 		if len(rootPaths) == 1 && TabCompare(PreviousPath, rootPaths[0]) {
 			break
 		}
 		PotentatielValidPath := ValidePathsFounded(rootPaths)
 		for _, v := range PotentatielValidPath {
-			fmt.Printf("im the valid path : %v ", PotentatielValidPath)
 			ValidPaths = append(ValidPaths, v)
 			SetAllRoomsFalse()
-			RemovePathFromTheNetwork(v)
+			RemovePathFromTheNetwork(ValidPaths)
+			//restar the path finder after founded one or many paths at the same time
 			rootPaths = GetUnEploredStartLinkedRoom()
-			
 		}
 		if len(rootPaths) == 1 {
 			PreviousPath = rootPaths[0]
@@ -35,14 +40,16 @@ func GetValidPath() [][]string {
 		UpDatePaths(&rootPaths)
 	}
 	return ValidPaths
-
 }
 
 func GetChildreen(nameOfRoom string) []string {
 	theRoom := objects.RoomRegister[nameOfRoom]
 	theChilds := []string{}
-	AlreadyExploredRoom[nameOfRoom] = true
+	if nameOfRoom != objects.End.Name {
+		AlreadyExploredRoom[nameOfRoom] = true
+	}
 	for _, v := range theRoom.LInkedRooms {
+
 		if !AlreadyExploredRoom[v] {
 			theChilds = append(theChilds, v)
 			AlreadyExploredRoom[v] = true
@@ -65,7 +72,6 @@ func RemovePathFromTheNetwork(paths [][]string) {
 			return
 		}
 		for _, v := range path[1 : len(path)-1] {
-
 			(*&AlreadyExploredRoom)[v] = true
 		}
 	}
@@ -82,17 +88,12 @@ func GetUnEploredStartLinkedRoom() [][]string {
 		}
 	}
 	for _, v := range NoExploredChild {
-		if objects.RoomRegister[v].Name == objects.End.Name {
-			thePAthToReturn = append(thePAthToReturn,  []string{objects.Start.Name,v})
-			continue
-		}
 		child := GetChildreen(v)
 		for _, v2 := range child {
 			NewPath := []string{}
 			NewPath = append(NewPath, objects.Start.Name, v, v2)
 			thePAthToReturn = append(thePAthToReturn, NewPath)
 		}
-
 	}
 	return thePAthToReturn
 }
@@ -122,7 +123,6 @@ func UpDatePaths(Paths *[][]string) {
 		}
 	}
 	*Paths = append(*Paths, NewPathsFounded...)
-
 }
 
 func ValidePathsFounded(Paths [][]string) [][]string {
@@ -132,8 +132,9 @@ func ValidePathsFounded(Paths [][]string) [][]string {
 			ValidePath = append(ValidePath, v)
 		}
 	}
-	return nil
+	return ValidePath
 }
+
 func TabCompare(tab1 []string, tab2 []string) bool {
 	if len(tab1) != len(tab2) {
 		return false
