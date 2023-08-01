@@ -6,14 +6,15 @@ import (
 
 var AlreadyExploredRoom map[string]bool
 
-func GetValidPath() [][]string {
-	ValidPaths := [][]string{}
+func GetValidPath() []objects.Path {
+ValidPaths := []objects.Path{}
 	//resset the neework
 	SetAllRoomsFalse()
 	//check If on Start Childs reach the End Room
 	for _, v := range objects.Start.LInkedRooms {
 		if v == objects.End.Name {
-			ValidPaths = append(ValidPaths, []string{objects.Start.Name, objects.End.Name})
+			NewPath := objects.Path{}
+			NewPath.RommsOfThePath= []string{objects.Start.Name, objects.End.Name}
 			break
 		}
 	}
@@ -28,7 +29,9 @@ func GetValidPath() [][]string {
 		}
 		PotentatielValidPath := ValidePathsFounded(rootPaths)
 		for _, v := range PotentatielValidPath {
-			ValidPaths = append(ValidPaths, v)
+			NewPath := objects.Path{}
+			NewPath.RommsOfThePath=  v
+			ValidPaths = append(ValidPaths, NewPath)
 			SetAllRoomsFalse()
 			RemovePathFromTheNetwork(ValidPaths)
 			//restar the path finder after founded one or many paths at the same time
@@ -66,12 +69,12 @@ func SetAllRoomsFalse() {
 	AlreadyExploredRoom = TemporaryMap
 }
 
-func RemovePathFromTheNetwork(paths [][]string) {
+func RemovePathFromTheNetwork(paths []objects.Path) {
 	for _, path := range paths {
-		if len(path) < 2 {
+		if len(path.RommsOfThePath) < 2 {
 			return
 		}
-		for _, v := range path[1 : len(path)-1] {
+		for _, v := range path.RommsOfThePath[1 : len(path.RommsOfThePath)-1] {
 			(*&AlreadyExploredRoom)[v] = true
 		}
 	}
@@ -134,6 +137,8 @@ func ValidePathsFounded(Paths [][]string) [][]string {
 	}
 	return ValidePath
 }
+//make an function to remove path 
+// 	To do
 
 func TabCompare(tab1 []string, tab2 []string) bool {
 	if len(tab1) != len(tab2) {

@@ -6,8 +6,12 @@ import (
 )
 
 func main() {
-	tools.ExploitTheExpemle("ExempleToTest/exemple07")
-	fmt.Println(tools.GetValidPath())
+	tools.PutAntsOnPaths()
+	for _, p := range tools.ValidePaths {
+		fmt.Println(p)
+		fmt.Println("")
+		fmt.Println("===============================================================================================")
+	}
 }
 
 /* exemple that return empty Board

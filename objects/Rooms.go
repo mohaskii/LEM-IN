@@ -13,11 +13,15 @@ type Room struct {
 	Y int
 }
 
-
 type Ant struct{
 	Name string
 	CurentPlace string
 	VisitedRoom []string
+}
+
+type Path struct {
+	RommsOfThePath []string
+	PlacedAnts []Ant
 }
 
 var Start Room

@@ -18,7 +18,7 @@ func Reader(s string) string {
 	}
 }
 
-func ExploitTheExpemle(TheExempleFileName string) {
+func ExploitTheExpemle(TheExempleFileName string) bool {
 	ExempleContain := Reader(TheExempleFileName)
 	ExempleContainSplited := strings.Split(ExempleContain, "\n")
 	//remove the epmty at the end of the list
@@ -69,6 +69,7 @@ func ExploitTheExpemle(TheExempleFileName string) {
 	}
 	AntInint(NumbersOfAnts)
 	LOLO()
+	return true
 }
 
 func AntInint(Numbers int) {
