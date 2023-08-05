@@ -13,9 +13,9 @@ var AlreadyPlaced map[string]bool
 var LenValidfePath = len(ValidePaths)
 
 func PutAntsOnPaths() {
-	for _, Ant := range objects.Ants {
+	for _, Ant := range objects.Start.AntsInTheRoom {
 		TheIndexOfGoodPath := FindTheGoodPath()
-		ValidePaths[TheIndexOfGoodPath].PlacedAnts = append(ValidePaths[TheIndexOfGoodPath].PlacedAnts, *Ant)
+		ValidePaths[TheIndexOfGoodPath].PlacedAnts = append(ValidePaths[TheIndexOfGoodPath].PlacedAnts, Ant)
 	}
 }
 

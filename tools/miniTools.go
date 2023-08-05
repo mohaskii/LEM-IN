@@ -69,16 +69,17 @@ func ExploitTheExpemle(TheExempleFileName string) bool {
 	}
 	AntInint(NumbersOfAnts)
 	LOLO()
+
+	fmt.Println("ok")
 	return true
 }
 
 func AntInint(Numbers int) {
 	for i := 0; i < Numbers; i++ {
 		NewAnt := objects.Ant{}
-		NewAnt.CurentPlace = objects.Start.Name
-		NewAnt.Name = "L" + string('1'+i)
+		NewAnt.Name = "L" + strconv.Itoa(i+1)
 		NewAnt.VisitedRoom = append(NewAnt.VisitedRoom, objects.RoomRegister[objects.Start.Name].Name)
-		objects.Ants = append(objects.Ants, &NewAnt)
+		objects.Start.AntsInTheRoom = append(objects.Start.AntsInTheRoom, &NewAnt)
 	}
 
 }
@@ -113,7 +114,6 @@ func RoomInit(typeOfRoom string, RoomElements []string) {
 	x, _ := strconv.Atoi(RoomElements[1])
 	y, _ := strconv.Atoi(RoomElements[2])
 	NewRoom.X, NewRoom.Y = x, y
-	objects.OtherRooms = append(objects.OtherRooms, &NewRoom)
 	objects.RoomRegister[NewRoom.Name] = &NewRoom
 
 }

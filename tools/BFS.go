@@ -7,14 +7,14 @@ import (
 var AlreadyExploredRoom map[string]bool
 
 func GetValidPath() []objects.Path {
-ValidPaths := []objects.Path{}
+	ValidPaths := []objects.Path{}
 	//resset the neework
 	SetAllRoomsFalse()
 	//check If on Start Childs reach the End Room
 	for _, v := range objects.Start.LInkedRooms {
 		if v == objects.End.Name {
 			NewPath := objects.Path{}
-			NewPath.RommsOfThePath= []string{objects.Start.Name, objects.End.Name}
+			NewPath.RommsOfThePath = []string{objects.Start.Name, objects.End.Name}
 			break
 		}
 	}
@@ -22,7 +22,6 @@ ValidPaths := []objects.Path{}
 	rootPaths := GetUnEploredStartLinkedRoom()
 	//intialize the  previous befor the update
 	PreviousPath := []string{}
-
 	for len(rootPaths) != 0 {
 		if len(rootPaths) == 1 && TabCompare(PreviousPath, rootPaths[0]) {
 			break
@@ -30,7 +29,7 @@ ValidPaths := []objects.Path{}
 		PotentatielValidPath := ValidePathsFounded(rootPaths)
 		for _, v := range PotentatielValidPath {
 			NewPath := objects.Path{}
-			NewPath.RommsOfThePath=  v
+			NewPath.RommsOfThePath = v
 			ValidPaths = append(ValidPaths, NewPath)
 			SetAllRoomsFalse()
 			RemovePathFromTheNetwork(ValidPaths)
@@ -137,7 +136,8 @@ func ValidePathsFounded(Paths [][]string) [][]string {
 	}
 	return ValidePath
 }
-//make an function to remove path 
+
+//make an function to remove path
 // 	To do
 
 func TabCompare(tab1 []string, tab2 []string) bool {
