@@ -135,3 +135,15 @@ func LOLO() {
 		v.LInkedRooms = removeDuplicates(v.LInkedRooms)
 	} 
 }
+func MoveAllAnts() []string {
+	tabOfMove := []string{}
+	AmontOfAllAnts := len(objects.Start.AntsInTheRoom)
+	for len(objects.End.AntsInTheRoom) != AmontOfAllAnts {
+		NewMove := ""
+		for i := range ValidePaths {
+			NewMove+= ValidePaths[i].MoveAllTheAntsInThePath()
+		}
+		tabOfMove = append(tabOfMove, NewMove)
+	}
+	return tabOfMove
+}
