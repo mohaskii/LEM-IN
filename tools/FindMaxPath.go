@@ -3,7 +3,6 @@ package tools
 import (
 	"fmt"
 	"lemIn/objects"
-	"time"
 )
 
 var AlreadyExploredRoom map[string]bool
@@ -12,7 +11,6 @@ var AllEndedPath [][]string
 func GetValidPath() []objects.Path {
 	ValidPaths := []objects.Path{}
 
-	fmt.Println("lolo")
 	//resset the neework
 	SetAllRoomsFalse()
 	//check If one Start Childs reach the End Room
@@ -25,10 +23,13 @@ func GetValidPath() []objects.Path {
 	}
 	//get the firts path that camm from The Start Room
 	rootPaths := GetUnEploredStartLinkedRoom()
-	UpDatePaths(objects.Start.LInkedRooms[3])
+	
+	for i := range rootPaths {
+		UpDatePaths(rootPaths[i])
+	}
+
+
 	fmt.Println(AllEndedPath)
-	// for i := range rootPaths {
-	// }
 	return ValidPaths
 }
 
@@ -42,7 +43,7 @@ func GetChildreen(nameOfRoom string) []string {
 
 		if !AlreadyExploredRoom[v] {
 			theChilds = append(theChilds, v)
-			if v != objects.End.Name{
+			if v != objects.End.Name {
 
 				AlreadyExploredRoom[v] = true
 			}
@@ -81,35 +82,33 @@ func GetUnEploredStartLinkedRoom() [][]string {
 		}
 	}
 	for _, v := range NoExploredChild {
-		child := GetChildreen(v)
-		for _, v2 := range child {
-			NewPath := []string{}
-			NewPath = append(NewPath, objects.Start.Name, v, v2)
-			thePAthToReturn = append(thePAthToReturn, NewPath)
-		}
+		NewPath := []string{}
+		NewPath = append(NewPath, objects.Start.Name, v)
+		thePAthToReturn = append(thePAthToReturn, NewPath)
 	}
 	return thePAthToReturn
 }
 
 func UpDatePaths(Path []string) {
+	SetAllRoomsFalse()
 	PathBuffer := [][]string{}
 	PathBuffer = append(PathBuffer, Path)
-	c := 0
-	for !AllPathAreStuck(PathBuffer)  {
+	for !AllPathAreStuck(PathBuffer) {
 		for i, v := range PathBuffer {
-			if c == 3 {
-				fmt.Println(PathBuffer)
-				time.Sleep(5 * time.Second)
-			}
+			// if c == 5 {
+			// 	fmt.Println(PathBuffer)
+			// 	time.Sleep(5 * time.Second)
+			// }
 			LastRoom := v[len(v)-1]
+			if LastRoom == objects.End.Name{
+				continue
+			}
 			LastRoomChilds := GetChildreen(LastRoom)
 			if len(LastRoomChilds) == 0 {
-				c++
 				continue
 			}
 			if len(LastRoomChilds) == 1 {
 				PathBuffer[i] = append(PathBuffer[i], LastRoomChilds[0])
-				c++
 				continue
 			}
 			PathBuffer[i] = append(PathBuffer[i], LastRoomChilds[0])
@@ -123,7 +122,6 @@ func UpDatePaths(Path []string) {
 				NewPath = append(NewPath, v2)
 				PathBuffer = append(PathBuffer, NewPath)
 			}
-			c++
 		}
 	}
 	// recover  all ended path in buffer
@@ -167,8 +165,8 @@ func AllPathAreStuck(PathBuffer [][]string) bool {
 		LastRoom := objects.RoomRegister[PathBuffer[i][len(PathBuffer[i])-1]]
 		DontHaveChilds := true
 		for _, v := range LastRoom.LInkedRooms {
-			if !AlreadyExploredRoom[v]{
-				DontHaveChilds= false
+			if !AlreadyExploredRoom[v] {
+				DontHaveChilds = false
 				break
 			}
 		}
