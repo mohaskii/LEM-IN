@@ -1,20 +1,17 @@
 package tools
 
-import "fmt"
-
-var AllChunk = make(map[string][][]string)
+var AllChunk = make(map[int][][]string)
 var AllReadyGot = make(map[int]bool)
+var TheGoodChunk = [][]string{}
 
 func FindChunk(Index int) [][]string {
-	ChunkToReturn := [][]string{}
-	fmt.Println(AllEndedPath)
-	fmt.Println("==============================")
+	ChunkToReturn:= [][]string{}
 	ChunkToReturn = append(ChunkToReturn, AllEndedPath[Index])
-	AllReadyGot[Index]= true
+	AllReadyGot[Index] = true
 	for i := range AllEndedPath {
-		if i != Index &&!AllReadyGot[i]&& !HaveSameRoom(AllEndedPath[Index], AllEndedPath[i]) && HaveNoCommonElementWith(ChunkToReturn,AllEndedPath[i] ) {
+		if i != Index && !AllReadyGot[i] && !HaveSameRoom(AllEndedPath[Index], AllEndedPath[i]) && HaveNoCommonElementWith(ChunkToReturn, AllEndedPath[i]) {
 			ChunkToReturn = append(ChunkToReturn, AllEndedPath[i])
-			AllReadyGot[i]= true
+			AllReadyGot[i] = true
 			Index = i
 
 		}
@@ -22,11 +19,27 @@ func FindChunk(Index int) [][]string {
 	return ChunkToReturn
 }
 
-func HaveNoCommonElementWith(Prvious [][]string , New  []string)bool {
+func HaveNoCommonElementWith(Prvious [][]string, New []string) bool {
 	for _, v := range Prvious {
-		if HaveSameRoom(v, New){
+		if HaveSameRoom(v, New) {
 			return false
 		}
 	}
 	return true
+}
+
+func GetAllChunk() {
+	for i := range AllEndedPath {
+		AllChunk[i] = FindChunk(i)
+	}
+}
+
+func GetTheChuckWithTHeMaxPath () {
+	theMaxChunk := AllChunk[0]
+	for _, v := range AllChunk{
+		if len(v) > len(theMaxChunk){
+			theMaxChunk =v
+		}
+	}
+	TheGoodChunk = theMaxChunk
 }

@@ -43,7 +43,7 @@ func (a *Ant) MoveOn(theRoomName string) error {
 	return nil
 }
 
-func (p *Path) MoveAllTheAntsInThePath() string {
+func (p *Path) MoveAllTheAntsInTheCurentPath() string {
 	//set the map
 
 	theMouves := ""

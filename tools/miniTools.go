@@ -141,7 +141,7 @@ func MoveAllAnts() []string {
 	for len(objects.End.AntsInTheRoom) != AmontOfAllAnts {
 		NewMove := ""
 		for i := range ValidePaths {
-			NewMove+= ValidePaths[i].MoveAllTheAntsInThePath()
+			NewMove+= ValidePaths[i].MoveAllTheAntsInTheCurentPath()
 		}
 		tabOfMove = append(tabOfMove, NewMove)
 	}

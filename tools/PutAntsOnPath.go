@@ -31,3 +31,13 @@ func FindTheGoodPath() int {
 	}
 	return 0
 }
+
+func InitValidPAth() {
+	ValidePathss := []objects.Path{}
+	for _, v := range TheGoodChunk {
+		New := objects.Path{}
+		New.RommsOfThePath = v
+		ValidePathss = append(ValidePathss, New)
+	}
+	ValidePaths = ValidePathss
+}
