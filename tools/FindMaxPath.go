@@ -1,36 +1,22 @@
 package tools
 
 import (
-	"fmt"
 	"lemIn/objects"
 )
 
 var AlreadyExploredRoom map[string]bool
 var AllEndedPath [][]string
 
-func GetValidPath() []objects.Path {
-	ValidPaths := []objects.Path{}
-
+func GetMaxEndedPath() {
 	//resset the neework
 	SetAllRoomsFalse()
-	//check If one Start Childs reach the End Room
-	for _, v := range objects.Start.LInkedRooms {
-		if v == objects.End.Name {
-			NewPath := objects.Path{}
-			NewPath.RommsOfThePath = []string{objects.Start.Name, objects.End.Name}
-			break
-		}
-	}
 	//get the firts path that camm from The Start Room
 	rootPaths := GetUnEploredStartLinkedRoom()
-	
+	//we will find the max ended path for each child of the star roomm
 	for i := range rootPaths {
-		UpDatePaths(rootPaths[i])
+		FindEndedPath(rootPaths[i])
 	}
 
-
-	fmt.Println(AllEndedPath)
-	return ValidPaths
 }
 
 func GetChildreen(nameOfRoom string) []string {
@@ -89,18 +75,15 @@ func GetUnEploredStartLinkedRoom() [][]string {
 	return thePAthToReturn
 }
 
-func UpDatePaths(Path []string) {
+func FindEndedPath(Path []string) {
 	SetAllRoomsFalse()
+	AlreadyExploredRoom[objects.Start.Name] = true
 	PathBuffer := [][]string{}
 	PathBuffer = append(PathBuffer, Path)
 	for !AllPathAreStuck(PathBuffer) {
 		for i, v := range PathBuffer {
-			// if c == 5 {
-			// 	fmt.Println(PathBuffer)
-			// 	time.Sleep(5 * time.Second)
-			// }
 			LastRoom := v[len(v)-1]
-			if LastRoom == objects.End.Name{
+			if LastRoom == objects.End.Name {
 				continue
 			}
 			LastRoomChilds := GetChildreen(LastRoom)
@@ -133,47 +116,34 @@ func UpDatePaths(Path []string) {
 
 }
 
-func ValidePathsFounded(Paths [][]string) [][]string {
-	ValidePath := [][]string{}
-	for _, v := range Paths {
-		if v[len(v)-1] == objects.End.Name {
-			ValidePath = append(ValidePath, v)
-		}
-	}
-	return ValidePath
-}
-
-//make an function to remove path
-// 	To do
-
-func TabCompare(tab1 []string, tab2 []string) bool {
-	if len(tab1) != len(tab2) {
-		return false
-	}
-	for i, v := range tab1 {
-		if v != tab2[i] {
-			return false
-		}
-	}
-	return true
-}
-
 func AllPathAreStuck(PathBuffer [][]string) bool {
 	for i := range PathBuffer {
 		// recover the last room of the path
 
 		LastRoom := objects.RoomRegister[PathBuffer[i][len(PathBuffer[i])-1]]
 		DontHaveChilds := true
+		//we will the check if the last  have child
 		for _, v := range LastRoom.LInkedRooms {
 			if !AlreadyExploredRoom[v] {
 				DontHaveChilds = false
 				break
 			}
 		}
-		// fmt.Printf("ddddd :  %v \n", DontHaveChilds)
+
 		if LastRoom.Name != objects.End.Name && !DontHaveChilds {
 			return false
 		}
 	}
 	return true
+}
+
+func HaveSameRoom(Path1, Path2 []string) bool {
+	for _, v := range Path1[1 : len(Path1)-1] {
+		for _, v2 := range Path2[1 : len(Path2)-1] {
+			if v == v2 {
+				return true
+			}
+		}
+	}
+	return false
 }

@@ -1,8 +1,12 @@
 package main
 
-import "lemIn/tools"
+import (
+	"fmt"
+	"lemIn/tools"
+)
 
 func main() {
-	_ = tools.ValidePaths
+	tools.GetMaxEndedPath()
 
+	fmt.Println(tools.FindChunk(16))
 }

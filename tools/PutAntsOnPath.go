@@ -4,9 +4,9 @@ import (
 	"lemIn/objects"
 )
 
-var _ = ExploitTheExpemle("ExempleToTest/exemple01")
+var _ = ExploitTheExpemle("ExempleToTest/exemple04")
 
-var ValidePaths = GetValidPath()
+var ValidePaths = []objects.Path{}
 
 var AlreadyPlaced map[string]bool
 
