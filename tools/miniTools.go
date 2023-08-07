@@ -70,7 +70,6 @@ func ExploitTheExpemle(TheExempleFileName string) bool {
 	AntInint(NumbersOfAnts)
 	LOLO()
 
-	fmt.Println("ok")
 	return true
 }
 
@@ -131,9 +130,9 @@ func removeDuplicates(arr []string) []string {
 	return result
 }
 func LOLO() {
-	for _, v:=range objects.RoomRegister{
+	for _, v := range objects.RoomRegister {
 		v.LInkedRooms = removeDuplicates(v.LInkedRooms)
-	} 
+	}
 }
 func MoveAllAnts() []string {
 	tabOfMove := []string{}
@@ -141,7 +140,7 @@ func MoveAllAnts() []string {
 	for len(objects.End.AntsInTheRoom) != AmontOfAllAnts {
 		NewMove := ""
 		for i := range ValidePaths {
-			NewMove+= ValidePaths[i].MoveAllTheAntsInTheCurentPath()
+			NewMove += ValidePaths[i].MoveAllTheAntsInTheCurentPath()
 		}
 		tabOfMove = append(tabOfMove, NewMove)
 	}

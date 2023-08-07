@@ -4,7 +4,7 @@ import (
 	"lemIn/objects"
 )
 
-var _ = ExploitTheExpemle("ExempleToTest/exemple04")
+var _ = ExploitTheExpemle("ExempleToTest/exemple03")
 
 var ValidePaths = []objects.Path{}
 
