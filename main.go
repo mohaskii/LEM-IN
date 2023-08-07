@@ -1,9 +1,7 @@
 package main
 
-func main() {
-// im the main 
-}
+import "lemIn/tools"
 
-/* exemple that return empty Board
-exemple 02
-*/
+func main() {
+	tools.Solve()
+}

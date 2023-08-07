@@ -1,8 +1,6 @@
 package objects
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type Room struct {
 	Name        string
@@ -39,21 +37,18 @@ func (a *Ant) MoveOn(theRoomName string) error {
 	}
 	RoomRegister[theRoomName].AntsInTheRoom = append(RoomRegister[theRoomName].AntsInTheRoom, a)
 	a.VisitedRoom = append(a.VisitedRoom, theRoomName)
-	
+
 	return nil
 }
 
-
-
-func (p *Path) MoveAllTheAntsInThePath() string {
+func (p *Path) MoveAllTheAntsInTheCurentPath() string {
 	//set the map
 
 	theMouves := ""
 
-
 	for i := range p.RommsOfThePath {
-		theReversed := (len(p.RommsOfThePath)-1) - i
-		if  p.RommsOfThePath[theReversed] != End.Name && p.RommsOfThePath[theReversed] != Start.Name {
+		theReversed := (len(p.RommsOfThePath) - 1) - i
+		if p.RommsOfThePath[theReversed] != End.Name && p.RommsOfThePath[theReversed] != Start.Name {
 			//we check if got an Ant in the Roomm
 			TheRoom := RoomRegister[p.RommsOfThePath[theReversed]]
 
@@ -61,7 +56,7 @@ func (p *Path) MoveAllTheAntsInThePath() string {
 				// we move the ant on the next room
 				TheAnt := TheRoom.AntsInTheRoom[0]
 				TheAnt.MoveOn(p.RommsOfThePath[theReversed+1])
-				RoomRegister[p.RommsOfThePath[theReversed]].AntsInTheRoom = []*Ant{} 
+				RoomRegister[p.RommsOfThePath[theReversed]].AntsInTheRoom = []*Ant{}
 				theMouves += fmt.Sprintf(" %s-%s", TheAnt.Name, p.RommsOfThePath[theReversed+1])
 			}
 		}
@@ -70,19 +65,9 @@ func (p *Path) MoveAllTheAntsInThePath() string {
 		if IsOut[v.Name] {
 			v.MoveOn(p.RommsOfThePath[1])
 			IsOut[v.Name] = false
-			theMouves += fmt.Sprintf(" %s-%s", v.Name, p.RommsOfThePath[1]) 
+			theMouves += fmt.Sprintf(" %s-%s", v.Name, p.RommsOfThePath[1])
 			break
 		}
 	}
 	return theMouves
 }
-
-// func MoveAllAnts () []string{
-// 	tabOfMove := []string{}
-// 	for {
-// 		for i := range tools.ValidePaths {
-// 			tools.ValidePaths[i]
-
-// 		}
-// 	}
-// }
